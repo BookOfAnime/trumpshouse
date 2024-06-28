@@ -32,7 +32,7 @@ function App() {
           <ambientLight intensity={8} />
           <pointLight intensity={2} position={[-1, 2, -2]} />
           <OrbitControls />
-          <Environment files="./bl.exr" background />
+          <Environment files="./me.hdr" background />
           <House position={[0, 0, 0]} />
           <Trump scale={0.5} position={[0, -1, -2]} rotation={[0, 1.6, 0]} />
         </Suspense>
