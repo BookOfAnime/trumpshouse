@@ -1,21 +1,14 @@
-import { useState, useRef } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, Environment, Html } from "@react-three/drei";
-import { useGLTF } from "@react-three/drei";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { Sushi } from "./Sushi";
-import { House } from "./House";
+import React, { useRef, Suspense } from "react";
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls, Environment, Loader } from "@react-three/drei";
 import gsap from "gsap";
+import { House } from "./House";
 import { Trump } from "./Trump";
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0);
   const cameraRef = useRef();
 
-  // Function to handle button click and animate the camera
   const moveCamera = () => {
     gsap.to(cameraRef.current.position, {
       x: 3,
@@ -29,21 +22,22 @@ function App() {
   return (
     <div className="App">
       <Canvas
+        className="canvas-container"
         onCreated={(state) => {
           cameraRef.current = state.camera;
-          state.camera.position.z = 30;
-          state.camera.position.x = 0;
-          state.camera.position.y = 10;
+          state.camera.position.set(0, 10, 30);
         }}
       >
-        <ambientLight intensity={8} />
-        <pointLight intensity={2} position={[-1, 2, -2]} />
-        <OrbitControls />
-        {/* <Sushi position={[0,-5,0]}/> */}
-        <Environment files="./bl.exr" background />
-        <House position={[0, 0, 0]} />
-        <Trump scale={.5} position={[0,-1,-2]} rotation={[0,1.6,0]}/>
+        <Suspense fallback={null}>
+          <ambientLight intensity={8} />
+          <pointLight intensity={2} position={[-1, 2, -2]} />
+          <OrbitControls />
+          <Environment files="./bl.exr" background />
+          <House position={[0, 0, 0]} />
+          <Trump scale={0.5} position={[0, -1, -2]} rotation={[0, 1.6, 0]} />
+        </Suspense>
       </Canvas>
+      <Loader />
       <button className="bottom-button" onClick={moveCamera}>
         Join Us
       </button>
